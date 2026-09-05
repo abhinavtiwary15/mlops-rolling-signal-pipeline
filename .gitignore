@@ -29,8 +29,10 @@ ENV/
 .DS_Store
 Thumbs.db
 
-# Logs (keep sample run.log, ignore generated ones)
+# Run artifacts & test cache
 *.log
+metrics.json
+.pytest_cache/
 
 # Secrets / env
 .env

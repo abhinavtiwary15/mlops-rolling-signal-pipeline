@@ -75,7 +75,7 @@ def load_config(config_path: str, logger: logging.Logger) -> dict:
         raise ValueError(f"Config 'version' must be a string, got: {type(config['version'])}")
 
     logger.info(
-        f"Config loaded and validated — seed={config['seed']}, "
+        f"Config loaded and validated - seed={config['seed']}, "
         f"window={config['window']}, version={config['version']}"
     )
     return config
@@ -110,7 +110,7 @@ def load_dataset(input_path: str, logger: logging.Logger) -> pd.DataFrame:
         null_count = df["close"].isnull().sum()
         logger.warning(f"Column 'close' has {null_count} null value(s); they will produce NaN signals.")
 
-    logger.info(f"Dataset loaded — {len(df)} rows, columns: {list(df.columns)}")
+    logger.info(f"Dataset loaded - {len(df)} rows, columns: {list(df.columns)}")
     return df
 
 
@@ -126,7 +126,7 @@ def compute_rolling_mean(df: pd.DataFrame, window: int, logger: logging.Logger) 
     rolling_mean = df["close"].rolling(window=window, min_periods=window).mean()
     nan_count = rolling_mean.isna().sum()
     logger.info(
-        f"Rolling mean computed — window={window}, "
+        f"Rolling mean computed - window={window}, "
         f"rows with NaN (excluded from signal): {nan_count}"
     )
     return rolling_mean
@@ -141,7 +141,7 @@ def compute_signal(close: pd.Series, rolling_mean: pd.Series, logger: logging.Lo
     signal[rolling_mean.isna()] = np.nan
     valid_signals = signal.dropna()
     logger.info(
-        f"Signal generated — {len(valid_signals)} valid rows, "
+        f"Signal generated - {len(valid_signals)} valid rows, "
         f"signal_rate={valid_signals.mean():.6f}"
     )
     return signal
@@ -194,11 +194,11 @@ def main():
         df = load_dataset(args.input, logger)
 
         # 4. Compute rolling mean
-        logger.info("Computing rolling mean …")
+        logger.info("Computing rolling mean ...")
         rolling_mean = compute_rolling_mean(df, window, logger)
 
         # 5. Compute signal
-        logger.info("Computing binary signal …")
+        logger.info("Computing binary signal ...")
         signal = compute_signal(df["close"], rolling_mean, logger)
 
         # 6. Metrics
@@ -218,7 +218,7 @@ def main():
         }
 
         logger.info(
-            f"Metrics summary — rows_processed={rows_processed}, "
+            f"Metrics summary - rows_processed={rows_processed}, "
             f"signal_rate={signal_rate:.6f}, latency_ms={latency_ms}"
         )
 
